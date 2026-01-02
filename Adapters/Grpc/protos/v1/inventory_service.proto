@@ -1,10 +1,10 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Inventory.V1";
+option csharp_namespace = "BoilerPlait";
 
 import "google/protobuf/timestamp.proto";
 
-service InventoryService
+service InventoryServices
 {
 	rpc GetPart(GetPartByIdRequest) returns (GetPartByIdResponse);
 	rpc GetListParts(GetListPartsRequest) returns (GetListPartsResponse);
@@ -32,10 +32,10 @@ message GetListPartsResponse{
 //Common
 message PartsFilter{
 	repeated string uuids = 1;
-	repeated string names = 1;
-	repeated Category categories = 1;
-	repeated string manufacturer_countries = 1;
-	repeated string tags = 1;
+	repeated string names = 2;
+	repeated Category categories = 3;
+	repeated string manufacturer_countries = 4;
+	repeated string tags = 5;
 }
 
 message Part{
@@ -50,7 +50,7 @@ message Part{
 	repeated string tags = 9;
 	map<string,Value> metadata = 10;
 	google.protobuf.Timestamp created_at=11;
-	google.protobuf.Timestamp updated_at=11;
+	google.protobuf.Timestamp updated_at=12;
 
 }
 

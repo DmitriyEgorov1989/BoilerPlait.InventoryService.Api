@@ -1,33 +1,38 @@
-﻿namespace BoilerPlait.InventoryService.Api
+﻿
+namespace BoilerPlait.InventoryService.Api
 {
-    public class Startup
+    public sealed class Startup
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        private readonly IConfiguration _configuration;
 
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public void ConfigureService(IServiceCollection serviceCollection)
+        {
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            serviceCollection.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
 
-            var app = builder.Build();
+            serviceCollection.AddGrpc();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            serviceCollection.AddGrpcReflection();
+        }
+
+
+        // Configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder applicationBuilder)
+        {
+            applicationBuilder.UseRouting();
+            applicationBuilder.UseHttpsRedirection();
+
+            applicationBuilder.UseEndpoints(endpointRouteBuilder =>
             {
-                app.MapOpenApi();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+                endpointRouteBuilder.MapGet("", () => "Hello World");
+            });
         }
     }
 }
