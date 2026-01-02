@@ -1,0 +1,6 @@
+@BoilerPlait.InventoryService.Api_HostAddress = http://localhost:5289
+
+GET {{BoilerPlait.InventoryService.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
