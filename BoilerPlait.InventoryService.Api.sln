@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4 d17.14
+VisualStudioVersion = 17.14.36811.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoilerPlait.InventoryService.Api", "BoilerPlait.InventoryService.Api.csproj", "{CA62577A-E438-461E-8D18-13DA21E4D6B8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoilerPlait.InventoryService.Infrastructure", "..\BoilerPlait.InventoryService.Infrastructure\BoilerPlait.InventoryService.Infrastructure.csproj", "{FAE9C889-24AE-4D26-847F-D81E9A0ADD7F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoilerPlait.InventoryService.Core", "..\BoilerPlait.InventoryService.Core\BoilerPlait.InventoryService.Core.csproj", "{26EF9B69-E51D-4581-AE9A-EBEB8EED6000}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{FF302083-A4B5-4C4B-AE02-3AB656EBC9EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primitives", "..\Primitives\Primitives.csproj", "{0B382F2D-0BBC-4D83-AA12-B0E9982DBF21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoilerPlait.InventoryService.Core", "..\BoilerPlait.InventoryService.Core\BoilerPlait.InventoryService.Core.csproj", "{FE409548-03C8-42B8-954A-D703188F6B77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoilerPlait.InventoryService.Infrastructure", "..\BoilerPlait.InventoryService.Infrastructure\BoilerPlait.InventoryService.Infrastructure.csproj", "{80768AD7-E6A7-41E4-BA57-00A06998FB45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,17 +25,24 @@ Global
 		{CA62577A-E438-461E-8D18-13DA21E4D6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA62577A-E438-461E-8D18-13DA21E4D6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA62577A-E438-461E-8D18-13DA21E4D6B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAE9C889-24AE-4D26-847F-D81E9A0ADD7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAE9C889-24AE-4D26-847F-D81E9A0ADD7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAE9C889-24AE-4D26-847F-D81E9A0ADD7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAE9C889-24AE-4D26-847F-D81E9A0ADD7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26EF9B69-E51D-4581-AE9A-EBEB8EED6000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26EF9B69-E51D-4581-AE9A-EBEB8EED6000}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26EF9B69-E51D-4581-AE9A-EBEB8EED6000}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26EF9B69-E51D-4581-AE9A-EBEB8EED6000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B382F2D-0BBC-4D83-AA12-B0E9982DBF21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B382F2D-0BBC-4D83-AA12-B0E9982DBF21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B382F2D-0BBC-4D83-AA12-B0E9982DBF21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B382F2D-0BBC-4D83-AA12-B0E9982DBF21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE409548-03C8-42B8-954A-D703188F6B77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE409548-03C8-42B8-954A-D703188F6B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE409548-03C8-42B8-954A-D703188F6B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE409548-03C8-42B8-954A-D703188F6B77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80768AD7-E6A7-41E4-BA57-00A06998FB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80768AD7-E6A7-41E4-BA57-00A06998FB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80768AD7-E6A7-41E4-BA57-00A06998FB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80768AD7-E6A7-41E4-BA57-00A06998FB45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B382F2D-0BBC-4D83-AA12-B0E9982DBF21} = {FF302083-A4B5-4C4B-AE02-3AB656EBC9EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D27B65A-F95C-4322-8156-DF960D65F20C}
