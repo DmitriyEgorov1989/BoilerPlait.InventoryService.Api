@@ -1,6 +1,6 @@
-﻿using BoilerPlait.InventoryService.Core.Application.UseCases.Queries.GetPart;
+﻿using BoilerPlait.InventoryService.Core.Application.UseCases.Queries.GetListParts;
+using BoilerPlait.InventoryService.Core.Application.UseCases.Queries.GetPart;
 using BoilerPlait.InventoryService.Core.Application.UseCases.Queries.SharedKernelDto;
-using CSharpFunctionalExtensions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
@@ -14,11 +14,37 @@ namespace BoilerPlait.InventoryService.Api.Adapters.Grpc
 
         public InventoryService(IMediator mediator)
         {
-
+            _mediator = mediator;
         }
         public override async Task<GetListPartsResponse> GetListParts(GetListPartsRequest request, ServerCallContext context)
         {
-            return null;
+            if (request == null)
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Not valid request"));
+            }
+;
+            var query = new GetListPartsQuery(
+                new PartsFilterModel(
+                    request.Filter.Uuids.Select(i => i).ToList(),
+                   request.Filter.Names.Select(n => n).ToList(),
+                    request.Filter.Categories.Select(c => c.ToString()).ToList(),
+                    request.Filter.ManufacturerCountries.Select(c => c).ToList(),
+                    request.Filter.Tags.Select(t => t).ToList())
+                );
+
+            var getListParts = await _mediator.Send(query);
+
+            if (getListParts.Error == GeneralErrors.NotFound())
+                throw new RpcException(new Status(StatusCode.NotFound, "Parts with such filters were not found "));
+
+            var listParts = getListParts.Value;
+
+            var response = new GetListPartsResponse
+            {
+                Parts = { listParts.Parts.Select(Mapto) }
+            };
+
+            return response;
         }
 
         public override async Task<GetPartByIdResponse> GetPart(GetPartByIdRequest request, ServerCallContext context)
@@ -37,13 +63,17 @@ namespace BoilerPlait.InventoryService.Api.Adapters.Grpc
                     throw new RpcException(new Status(StatusCode.InvalidArgument, $"Not valid request ID{request.Uuid}"));
                 }
             }
-            var part = resultGetPart.Value.part;
+            var partDto = resultGetPart.Value.part;
 
-            var response = Mapto(part);
+            var part = Mapto(partDto);
 
-            return response;
+            return new GetPartByIdResponse
+            {
+                Part = part
+            };
         }
-        public GetPartByIdResponse Mapto(PartDto response)
+
+        public Part Mapto(PartDto response)
         {
             var part = new Part
             {
@@ -73,10 +103,7 @@ namespace BoilerPlait.InventoryService.Api.Adapters.Grpc
             {
                 part.UpdatedAt = Timestamp.FromDateTime(response.UpdatedAat!.Value.ToUniversalTime());
             }
-            return new GetPartByIdResponse
-            {
-                Part = part
-            };
+            return part;
         }
 
         private static Category ParseCategory(string categoryName)
