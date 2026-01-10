@@ -34,7 +34,7 @@ namespace BoilerPlait.InventoryService.Api.Adapters.Grpc
 
             var getListParts = await _mediator.Send(query);
 
-            if (getListParts.Error == GeneralErrors.NotFound())
+            if (getListParts.IsFailure && getListParts.Error == GeneralErrors.NotFound())
                 throw new RpcException(new Status(StatusCode.NotFound, "Parts with such filters were not found "));
 
             var listParts = getListParts.Value;
@@ -54,16 +54,16 @@ namespace BoilerPlait.InventoryService.Api.Adapters.Grpc
 
             if (resultGetPart.IsFailure)
             {
-                if (resultGetPart.Error == GeneralErrors.NotFound())
+                if (resultGetPart.IsFailure && resultGetPart.Error == GeneralErrors.NotFound())
                 {
                     throw new RpcException(new Status(StatusCode.NotFound, "Part Not Found"));
                 }
-                if (resultGetPart.Error == GeneralErrors.ValueIsInvalid(request.Uuid))
+                if (resultGetPart.IsFailure && resultGetPart.Error == GeneralErrors.ValueIsInvalid(request.Uuid))
                 {
                     throw new RpcException(new Status(StatusCode.InvalidArgument, $"Not valid request ID{request.Uuid}"));
                 }
             }
-            var partDto = resultGetPart.Value.part;
+            PartDto? partDto = resultGetPart.Value.part;
 
             var part = Mapto(partDto);
 
@@ -108,7 +108,7 @@ namespace BoilerPlait.InventoryService.Api.Adapters.Grpc
 
         private static Category ParseCategory(string categoryName)
         {
-            if (!string.IsNullOrEmpty(categoryName))
+            if (string.IsNullOrEmpty(categoryName))
             {
                 throw new RpcException(
                           new Status(StatusCode.InvalidArgument, "category is empty")

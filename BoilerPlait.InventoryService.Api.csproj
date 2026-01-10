@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BoilerPlait.InventoryService.Core\BoilerPlait.InventoryService.Core.csproj" />
+	  <ProjectReference Include="..\BoilerPlait.InventoryService.Infrastructure\BoilerPlait.InventoryService.Infrastructure.csproj" />
 	  <ProjectReference Include="..\Primitives\Primitives.csproj" />
 	</ItemGroup>
 

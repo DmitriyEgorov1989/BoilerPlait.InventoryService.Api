@@ -1,4 +1,9 @@
 ﻿
+using BoilerPlait.InventoryService.Core.Application;
+using BoilerPlait.InventoryService.Core.Ports;
+using BoilerPlait.InventoryService.Infrastructure.Adapters.MongoDb;
+using BoilerPlait.InventoryService.Infrastructure.Adapters.MongoDb.Repository;
+
 namespace BoilerPlait.InventoryService.Api
 {
     public sealed class Startup
@@ -10,27 +15,30 @@ namespace BoilerPlait.InventoryService.Api
             _configuration = configuration;
         }
 
-        public void ConfigureService(IServiceCollection serviceCollection)
+        public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            // Add services to the container.
-
-            serviceCollection.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-
+            //Grpc
             serviceCollection.AddGrpc();
-
             serviceCollection.AddGrpcReflection();
+
+            //Mediatr
+            serviceCollection.AddMediatR(cfg =>
+                 cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly));
+
+            //MongoDb
+            serviceCollection.AddSingleton<MongoDbContext>();
+
+            //services
+            serviceCollection.AddScoped<IPartRepository, PartRepository>();
         }
-
-
-        // Configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder applicationBuilder)
         {
             applicationBuilder.UseRouting();
-            applicationBuilder.UseHttpsRedirection();
 
             applicationBuilder.UseEndpoints(endpointRouteBuilder =>
             {
+                endpointRouteBuilder.MapGrpcService<Adapters.Grpc.InventoryService>();
+                endpointRouteBuilder.MapGrpcReflectionService();
                 endpointRouteBuilder.MapGet("", () => "Hello World");
             });
         }
